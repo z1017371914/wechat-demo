@@ -4,9 +4,11 @@ var Promise = require('bluebird')
 var request = Promise.promisify(require('request'))
 var util = require('./util')
 var prefix = 'https://api.weixin.qq.com/cgi-bin/'
+var fs = require('fs')
 
 var api = {
-	accessToken: prefix + 'token?grant_type=client_credential'
+	accessToken: prefix + 'token?grant_type=client_credential',
+	upload: prefix + 'media/upload?'
 }
 
 function Wechat(opts) {
@@ -53,6 +55,11 @@ Wechat.prototype.updateAccessToken = function() {
 
 Wechat.prototype.fetchAccessToken = function() {
 	var me = this
+	if (this.access_token && this.expires_in) {
+		if (this.isValidAccessToken(this)) {
+			return Promise.resolve(this)
+		}
+	}
 	this.getAccessToken().then(function(res) {
 		try {
 			res = JSON.parse(res)
@@ -67,7 +74,8 @@ Wechat.prototype.fetchAccessToken = function() {
 	}).then(function(data) {
 		me.access_token = data.access_token
 		me.expires_in = data.expires_in
-		me.saveAccessToken(data);
+		me.saveAccessToken(data)
+		return Promise.resolve(data)
 	})
 }
 
@@ -80,5 +88,34 @@ Wechat.prototype.reply = function() {
 	this.type = 'application/xml'
 	this.body = xml
 }
+
+Wechat.prototype.uploadMaterial = function(type, filepath) {
+	var that = this
+	var form = {
+		media: fs.createReadStream(filepath)
+	}
+	var appID = this.appID
+	var appSecret = this.appSecret
+
+	return new Promise(function(resolve, reject) {
+		that.fetchAccessToken().then(function(data) {
+			var url = api.upload + 'access_token=' + data.access_token + '&type=' + type
+			request({
+				url: url,
+				method: 'POST',
+				formData: form,
+				json: true
+			}).then(function(res) {
+				var data = res[1]
+				if (data) {
+					resolve(data)
+				} else {
+					throw new Error('upload material fails')
+				}
+			})
+		})
+	})
+}
+
 
 module.exports = Wechat;
