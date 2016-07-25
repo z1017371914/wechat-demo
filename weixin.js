@@ -11,6 +11,7 @@ exports.reply = function*(next) {
 			this.body = '您好，专业男科请找我们'
 		} else if (message.Event === 'unsubscribe') {
 			console.log('无情取关')
+			this.body = 0
 		} else if (message.Event === 'LOCATION') {
 			this.body = '您上报的位置是：' + message.Latitude + '/' + message.Longitude + '-'
 		} else if (message.Event === 'CLICK') {
@@ -22,7 +23,7 @@ exports.reply = function*(next) {
 		}
 	} else if(message.MsgType === 'text') {
 		var content = message.Content
-		var reply = '额，你说的' + message.Content + '病太复杂了，一点一点来'
+		var reply = '爆哥，你大爷的'
 			console.log('消息')
 			if (content.indexOf('1') >= 0) {
 				reply = '您得了阳痿'
