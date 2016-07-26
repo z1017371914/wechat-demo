@@ -39,25 +39,6 @@ module.exports = function(opts, handler) {
 			this.weixin = message
 			yield handler.call(this, next)
 			wechat.reply.call(this)
-			// if (message.MsgType === 'event') {
-			// 	if (message.Event === 'subscribe') {
-			// 		var now = new Date().getTime()
-			// 		this.status = 200
-			// 		this.type = 'application/xml'
-			// 		this.body = '<xml>' +
-			// 			'<ToUserName><![CDATA[' + message.FromUserName + ']]></ToUserName><FromUserName><![CDATA[' + message.ToUserName + ']]></FromUserName><CreateTime>' + now + '</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[ ' + '你好，请问您有什么男科疾病需要治疗吗？' + ']]></Content></xml>'
-			// 		return
-			// 	}
-			// }
-			// if (message.MsgType === 'text') {
-			// 	var now = new Date().getTime()
-			// 	this.status = 200
-			// 	this.type = 'application/xml'
-			// 	this.body = '<xml>' +
-			// 		'<ToUserName><![CDATA[' + message.FromUserName + ']]></ToUserName><FromUserName><![CDATA[' + message.ToUserName + ']]></FromUserName><CreateTime>' + now + '</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[ ' + '呵呵，想和我聊天吗' + ']]></Content></xml>'
-			// 	return
-			// }
-
 		}
 	}
 }
