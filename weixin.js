@@ -110,6 +110,22 @@ exports.reply = function*(next) {
 					show_cover_pic: 1,
 					content: '毕业当天，韩腾被肛，及其屈辱，作案人能看出正脸的有：张岩、苏广军、李遵晴',
 					content_source_url: 'https://github.com'
+				}, {
+					title: '韩腾被肛',
+					thumb_media_id: picData.media_id,
+					author: 'evilemon',
+					digest: '屈辱的毕业季',
+					show_cover_pic: 1,
+					content: '毕业当天，韩腾被肛，及其屈辱，作案人能看出正脸的有：张岩、苏广军、李遵晴',
+					content_source_url: 'https://github.com'
+				}, {
+					title: '韩腾被肛',
+					thumb_media_id: picData.media_id,
+					author: 'evilemon',
+					digest: '屈辱的毕业季',
+					show_cover_pic: 1,
+					content: '毕业当天，韩腾被肛，及其屈辱，作案人能看出正脸的有：张岩、苏广军、李遵晴',
+					content_source_url: 'https://github.com'
 				}]
 			}
 
@@ -152,6 +168,38 @@ exports.reply = function*(next) {
 			]
 			console.log(results)
 			reply = 1
+		} else if (content === '12') {
+			var group = yield wechatAPI.createGroup('wechatnew')
+			console.log('新分组wechat')
+			console.log(group)
+
+			var groups = yield wechatAPI.fetchGroup()
+
+			console.log('加了wechat后的分组列表')
+			console.log(groups)
+
+			var group2 = yield wechatAPI.checkGroup(message.FromUserName)
+			console.log('查看自己的分组')
+			console.log(group2)
+
+			reply = 'group done !'
+		} else if (content === '13') {
+			var user = yield wechatAPI.fetchUsers(message.FromUserName)
+			console.log(user)
+			var options = [{
+				openid: message.FromUserName,
+				lang: 'en'
+			}]
+
+			var users = yield wechatAPI.fetchUsers(options)
+
+			console.log(users)
+
+			reply = JSON.stringify(user)
+		} else if (content === '14') {
+			var userList = yield wechatAPI.listUsers()
+			console.log(userList)
+			reply = userList
 		}
 
 		this.body = reply

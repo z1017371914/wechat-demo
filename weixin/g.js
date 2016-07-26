@@ -9,6 +9,7 @@ var weixin = require('../weixin')
 module.exports = function(opts, handler) {
 	var wechat = new Wechat(opts)
 	return function*(next) {
+		console.log(this.query)
 		var token = opts.token
 		var signature = this.query.signature
 		var nonce = this.query.nonce
