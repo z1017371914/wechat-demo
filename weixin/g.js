@@ -4,7 +4,7 @@ var sha1 = require('sha1')
 var Wechat = require('./wechat')
 var getRawBody = require('raw-body')
 var util = require('./util')
-var weixin = require('../weixin')
+var weixin = require('../wx/reply')
 
 module.exports = function(opts, handler) {
 	var wechat = new Wechat(opts)
